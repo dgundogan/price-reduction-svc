@@ -1,0 +1,3 @@
+myconfig:
+  url : "https://jl-nonprod-syst.apigee.net/v1/categories/{productId}/products?key={keyValue}"
+  apiKey : "2ALHCAAs6ikGRBoy6eTHA58RaG097Fma"
