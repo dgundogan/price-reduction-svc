@@ -22,7 +22,7 @@ class ReductionController(internal var reductionService: ReductionService) {
             : ResponseEntity<List<ProductModel>?> {
         val reductions = reductionService.getReducedProducts(categoryId, labelTypeEnum)
 
-        if (reductions.isEmpty())
+        if (reductions.isNullOrEmpty())
             throw ProductNotFoundException("Product '$categoryId' not found")
 
         return ResponseEntity(reductions, HttpStatus.OK)

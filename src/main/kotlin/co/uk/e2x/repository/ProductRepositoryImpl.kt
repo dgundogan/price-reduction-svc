@@ -15,10 +15,10 @@ import org.springframework.web.client.RestTemplate
 class ProductRepositoryImpl(val restTemplate: RestTemplate) : ProductRepository {
 
     @Value("\${myconfig.url:}")
-    var url: String? = null
+    val url: String? = null
 
     @Value("\${myconfig.apiKey:}")
-    var apiKey: String? = null
+    val apiKey: String? = null
 
     override fun getProduct(productId: Int): List<Product> {
 

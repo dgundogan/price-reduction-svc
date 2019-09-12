@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @RunWith(SpringRunner::class)
 class ReductionServiceImplTest {
 
-    val categoryId: Int = 500
+    private val categoryId: Int = 500
 
     @TestConfiguration
     internal class ReductionServicesImplTestContextConfiguration {

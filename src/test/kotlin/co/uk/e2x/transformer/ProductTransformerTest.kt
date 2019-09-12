@@ -7,7 +7,7 @@ import org.junit.Test
 
 class ProductTransformerTest {
 
-    val productTransformer = ProductTransformer()
+    private val productTransformer = ProductTransformer()
 
 
     @Test
@@ -40,9 +40,9 @@ class ProductTransformerTest {
     @Test
     fun giveLabelTypeIsShowWasNow_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
 
-        val expected: String = "Was £100.00, now £50.00"
+        val expected = "Was £100.00, now £50.00"
 
-        val price = Price(100.00f, null, null, 50.00f, CurrencyEnum.GBP)
+        val price = Price(100.00f, null, null, "50.00", CurrencyEnum.GBP)
 
         val actual = productTransformer.convertPriceLabel(price, LabelTypeEnum.ShowWasNow)
 
@@ -52,7 +52,7 @@ class ProductTransformerTest {
     @Test
     fun giveLabelTypeIsShowWasThenNowAndThen2IsNotEmpty_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
 
-        val expected: String = "Was €9.99, then €7.77, now €5.55"
+        val expected = "Was €9.99, then €7.77, now €5.55"
 
         val price = Price(9.99f, 9.00f, 7.77f, 5.55f, CurrencyEnum.EUR)
 
@@ -64,7 +64,7 @@ class ProductTransformerTest {
     @Test
     fun giveLabelTypeIsShowWasThenNowAndThen2IsEmpty_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
 
-        val expected: String = "Was €9.99, then €9.00, now €5.55"
+        val expected = "Was €9.99, then €9.00, now €5.55"
 
         val price = Price(9.99f, 9.00f, null, 5.55f, CurrencyEnum.EUR)
 
@@ -76,9 +76,9 @@ class ProductTransformerTest {
     @Test
     fun giveLabelTypeIsShowPercDscount_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
 
-        val expected: String = "200.0% off - now $100.00"
+        val expected = "200.0% off - now $100.00"
 
-        val price = Price(50.00f, null, null, 100.00f, CurrencyEnum.USD)
+        val price = Price(50.00f, null, null, "100.00", CurrencyEnum.USD)
 
         val actual = productTransformer.convertPriceLabel(price, LabelTypeEnum.ShowPercDscount)
 
@@ -88,9 +88,9 @@ class ProductTransformerTest {
     @Test
     fun giveLabelTypeIsNull_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
 
-        val expected: String = "Was £100.00, now £50.00"
+        val expected = "Was £100.00, now £50.00"
 
-        val price = Price(100.00f, null, null, 50.00f, CurrencyEnum.GBP)
+        val price = Price(100.00f, null, null, "50.00", CurrencyEnum.GBP)
 
         val actual = productTransformer.convertPriceLabel(price, null)
 

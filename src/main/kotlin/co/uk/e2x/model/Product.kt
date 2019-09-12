@@ -15,8 +15,6 @@ data class Product(val productId: String, val title: String, val price: Price, v
 
 data class Category(val products: List<Product>)
 
-data class PriceNow(val from: String, val to: String)
-
 data class ProductModel(
     val productId: String, val title: String,
     val colorSwatches: List<ColorSwatchesModel>,
