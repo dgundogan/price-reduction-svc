@@ -43,37 +43,30 @@ class ProductTransformer {
 
 
     fun convertPriceLabel(price: Price, priceLabelTypeEnum: LabelTypeEnum?):String = when(priceLabelTypeEnum){
-        LabelTypeEnum.ShowWasNow ->"Was ${price.currency.currency}${"%.2f".format(calculateWas(price))}" +
-                ", now ${price.currency.currency}${"%.2f".format(calculateNow(price))}"
+        LabelTypeEnum.ShowWasNow ->"Was ${price.currency.currency}${"%.2f".format(calculatePrice(price.was.toString()))}" +
+                ", now ${price.currency.currency}${"%.2f".format(calculatePrice(price.now.toString()))}"
         LabelTypeEnum.ShowWasThenNow -> "Was %s%.2f, then %s%.2f, now %s%.2f".format(price.currency.currency,
-            price.was, price.currency.currency, price.then2 ?: price.then1
-            , price.currency.currency, calculateNow(price))
+            calculatePrice(price.was.toString()), price.currency.currency,
+            calculatePrice((price.then2 ?: price.then1).toString())
+            , price.currency.currency, calculatePrice(price.now.toString()))
         LabelTypeEnum.ShowPercDscount -> "%s%s off - now %s%.2f".format(
-            calculatePercentage(calculateWas(price),calculateNow(price)),
-            "%", price.currency.currency,calculateNow(price))
-        null -> "Was ${price.currency.currency}${"%.2f".format(calculateWas(price))}" +
-                ", now ${price.currency.currency}${"%.2f".format(calculateNow(price))}"
+            calculatePercentage(calculatePrice(price.was.toString()),calculatePrice(price.now.toString())),
+            "%", price.currency.currency,calculatePrice(price.now.toString()))
+        null -> "Was ${price.currency.currency}${"%.2f".format(calculatePrice(price.was.toString()))}" +
+                ", now ${price.currency.currency}${"%.2f".format(calculatePrice(price.now.toString()))}"
     }
 
-    fun calculateNow(price: Price): Float{
+
+    fun calculatePrice(price: String): Float{
         var result = 0.00f
         try {
-            result = price.now.toString().toFloat()
+            result = price.toFloat()
         }catch (e: Exception){
 
         }
         return result
     }
 
-    fun calculateWas(price: Price): Float{
-        var result = 0.00f
-        try {
-            result = price.was.toString().toFloat()
-        }catch (e: Exception){
-
-        }
-        return result
-    }
 
     fun calculatePercentage(val1: Float?, val2: Float?): String{
         println(val1.toString() + "::"+ val2.toString())
