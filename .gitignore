@@ -1,0 +1,9 @@
+# Gradle
+# ------
+.gradle
+gradle/
+
+# IDEA
+# ----
+.idea
+.idea/*
