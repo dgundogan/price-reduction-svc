@@ -111,3 +111,9 @@ http://localhost:8080/categories/600001506/reductions?labelType=ShowWasThenNow
 }
 ```
 
+
+
+·  Looks like “nowPrice” will round off the pence in the ProductTransformer - I don’t think this is the intention of the exercise
+·  Rollups should be used in ProductTransformerTest
+·  Integration tests should be included to start the application fully and test the endpoint
+·  Unit tests need to test more bounds, for example the point above
