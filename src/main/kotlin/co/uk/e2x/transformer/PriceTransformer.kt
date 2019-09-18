@@ -3,25 +3,24 @@ package co.uk.e2x.transformer
 import co.uk.e2x.model.CurrencyEnum
 import co.uk.e2x.model.LabelTypeEnum
 import co.uk.e2x.model.Price
-import java.lang.Float.parseFloat
 
-
+@Suppress("UNCHECKED_CAST")
 class PriceTransformer {
     companion object {
         fun calculatePrice(price: Any, currency: String): String {
-            val nowPrice: Float = try {
+            val nowPrice: String = try {
                 if (price is String) {
-                    parseFloat(price as String?)
+                    price
                 } else {
                     val priceNow = price as LinkedHashMap<String, String>
-                    parseFloat(priceNow["to"])
+                    priceNow["to"].toString()
                 }
             } catch (e: Exception) {
-                0.0f
+                "0"
             }
             return CurrencyEnum.valueOf(currency).currency.plus(
-                when (nowPrice < 10) {
-                    false -> nowPrice.let { Math.round(it) }
+                when (nowPrice.toFloat() < 10) {
+                    false -> nowPrice.let { Math.round(it.toFloat()) }
                     true -> nowPrice
                 }
             )
@@ -29,22 +28,26 @@ class PriceTransformer {
 
         fun convertPriceLabel(price: Price, priceLabelTypeEnum: LabelTypeEnum?): String = when (priceLabelTypeEnum) {
             LabelTypeEnum.ShowWasNow
-            -> "Was ${price.currency.currency}${"%.2f".format(calculatePrice(price.was.toString()))}" +
-                    ", now ${price.currency.currency}${"%.2f".format(calculatePrice(getPriceNow(price)))}"
+            -> "Was ${getCurrency(price)}${"%.2f".format(calculatePrice(price.was.toString()))}" +
+                    ", now ${getCurrency(price)}${"%.2f".format(calculatePrice(getPriceNow(price)))}"
             LabelTypeEnum.ShowWasThenNow
             -> "Was %s%.2f, then %s%.2f, now %s%.2f".format(
-                price.currency.currency,
-                calculatePrice(price.was.toString()), price.currency.currency,
-                calculatePrice((price.then2 ?: price.then1).toString()), price.currency.currency,
+                getCurrency(price),
+                calculatePrice(price.was.toString()), getCurrency(price),
+                calculatePrice((price.then2 ?: price.then1).toString()), getCurrency(price),
                 calculatePrice(price.now.toString())
             )
             LabelTypeEnum.ShowPercDscount
             -> "%s%s off - now %s%.2f".format(
                 calculatePercentage(calculatePrice(price.was.toString()), calculatePrice(getPriceNow(price))),
-                "%", price.currency.currency, calculatePrice(getPriceNow(price))
+                "%", getCurrency(price), calculatePrice(getPriceNow(price))
             )
-            null -> "Was ${price.currency.currency}${"%.2f".format(calculatePrice(price.was.toString()))}" +
-                    ", now ${price.currency.currency}${"%.2f".format(calculatePrice(getPriceNow(price)))}"
+            null -> "Was ${getCurrency(price)}${"%.2f".format(calculatePrice(price.was.toString()))}" +
+                    ", now ${getCurrency(price)}${"%.2f".format(calculatePrice(getPriceNow(price)))}"
+        }
+
+        private fun getCurrency(price: Price): String {
+            return price.currency.currency
         }
 
         private fun getPriceNow(price: Price): String {
@@ -69,7 +72,7 @@ class PriceTransformer {
         private fun calculatePercentage(val1: Float, val2: Float): String {
             if (val1.equals(0.00f)) return "0"
             return try {
-                (val2.div(val1) * 100).toString()
+                 Math.round((val2.div(val1) * 100)).toString()
             } catch (e: Exception) {
                 "0"
             }
