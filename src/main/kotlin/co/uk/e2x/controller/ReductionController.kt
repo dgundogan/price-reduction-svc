@@ -1,6 +1,6 @@
 package co.uk.e2x.controller
 
-import co.uk.e2x.handler.ProductNotFoundException
+import co.uk.e2x.handler.exception.ProductNotFoundException
 import co.uk.e2x.model.LabelTypeEnum
 import co.uk.e2x.model.ProductModel
 import co.uk.e2x.service.ReductionService

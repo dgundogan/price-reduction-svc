@@ -72,3 +72,42 @@ labelType
 
 Example:
 http://localhost:8080/categories/600001506/reductions?labelType=ShowWasThenNow
+
+
+### Response
+
+#### Response Model
+
+```bash
+[
+    {
+        "productId": "3467432",
+        "title": "Boden Rosamund Posy Stripe Dress",
+        "colorSwatches": [
+            {
+                "color": "Navy",
+                "rgbColor": "0000FF",
+                "skuid": "237334043"
+            },
+            {
+                "color": "Mimosa Yellow",
+                "rgbColor": "FFFF00",
+                "skuid": "237334029"
+            }
+        ],
+        "nowPrice": "£63",
+        "priceLabel": "70.0% off - now £63.00"
+    }
+]
+```
+
+#### Error Model
+
+```bash
+{
+    "time": "2019-09-18T19:58:35.025+0000",
+    "message": "Invalid Parameter",
+    "details": "Failed ..."
+}
+```
+

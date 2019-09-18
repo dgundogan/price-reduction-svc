@@ -1,5 +1,7 @@
 package co.uk.e2x.handler
 
+import co.uk.e2x.handler.exception.ProductNotFoundException
+import co.uk.e2x.model.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice

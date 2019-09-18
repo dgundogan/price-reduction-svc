@@ -1,4 +1,4 @@
-package co.uk.e2x.handler
+package co.uk.e2x.model
 
 import java.util.*
 

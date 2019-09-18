@@ -1,6 +1,6 @@
 package co.uk.e2x.repository
 
-import co.uk.e2x.handler.ProductNotFoundException
+import co.uk.e2x.handler.exception.ProductNotFoundException
 import co.uk.e2x.model.Category
 import co.uk.e2x.model.Product
 import org.springframework.beans.factory.annotation.Value
