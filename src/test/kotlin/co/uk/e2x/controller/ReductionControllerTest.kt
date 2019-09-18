@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.*
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(ReductionController::class)
@@ -30,7 +29,7 @@ class ReductionControllerTest {
     fun givenEmptyList_whenCallGetReducedProducts_thenReturnOK() {
         doReturn(null).`when`(discountService).getReducedProducts(100, null)
 
-        mockMvc.perform(get("/reduction/reductionProductsByCategoryId/{categoryId}", 100))
+        mockMvc.perform(get("/categories/{categoryId}/reductions", 100))
             .andExpect(status().isBadRequest)
     }
 
@@ -40,7 +39,7 @@ class ReductionControllerTest {
 
         doReturn(mockProducts).`when`(discountService).getReducedProducts(100, null)
 
-        mockMvc.perform(get("/reduction/reductionProductsByCategoryId/{categoryId}", 100))
+        mockMvc.perform(get("/categories/{categoryId}/reductions", 100))
             .andExpect(status().isOk)
     }
 }

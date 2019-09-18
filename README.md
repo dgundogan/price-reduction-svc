@@ -49,19 +49,19 @@ You could use Gradle to test and build the jar file.
 
 |End Point                                                                   | Operation |Port  |
 |----------------------------------------------------------------------------|-----------|------|
-|http://localhost:8080/reduction/reductionProductsByCategoryId/{categoryId}  |GET        | 8080 |
+|http://localhost:8080/categories/{categoryId}/reductions                    |GET        | 8080 |
 
 
 
 Example:
-http://localhost:8080/reduction/reductionProductsByCategoryId/600001506
+http://localhost:8080/categories/600001506/reductions
 
 
 2) Query Param:
 
 |End Point                                                                                      | Operation |Port  |
 |-----------------------------------------------------------------------------------------------|-----------|------|
-|hhttp://localhost:8080/reduction/reductionProductsByCategoryId/{categoryId}?labelType=labelType|GET        | 8080 |
+|http://localhost:8080/categories/{categoryId}/reductions?labelType=labelType                   |GET        | 8080 |
 
 
 labelType
@@ -71,4 +71,4 @@ labelType
 - empty
 
 Example:
-http://localhost:8080/reduction/reductionProductsByCategoryId/600001506?labelType=ShowWasThenNow
+http://localhost:8080/categories/600001506/reductions?labelType=ShowWasThenNow

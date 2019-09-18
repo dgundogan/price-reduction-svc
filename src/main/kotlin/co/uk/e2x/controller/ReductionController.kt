@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Slf4j
-@RequestMapping("/reduction")
-class ReductionController(internal var reductionService: ReductionService) {
+@RequestMapping("/categories")
+class ReductionController(internal var reductionService: ReductionService){
 
-    @GetMapping("/reductionProductsByCategoryId/{categoryId}")
+    @GetMapping("/{categoryId}/reductions")
     fun getDiscountedProducts(
         @PathVariable("categoryId") categoryId: Int,
         @RequestParam("labelType") labelTypeEnum: LabelTypeEnum?

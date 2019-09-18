@@ -20,7 +20,7 @@ class ErrorHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(
             Date(),
             "Invalid Parameter",
-            ex.message!!
+            ex.message.toString()
         )
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
@@ -30,7 +30,7 @@ class ErrorHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(
             Date(),
             "Invalid Product Id",
-            ex.message!!
+            ex.message.toString()
         )
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
@@ -40,9 +40,18 @@ class ErrorHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(
             Date(),
             "Product not found",
-            ex.message!!
+            ex.message.toString()
         )
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(value = [(Exception::class)])
+    fun handleGeneralException(ex: Exception, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            Date(),
+            "Product not found",
+            ex.message.toString()
+        )
+        return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
 }

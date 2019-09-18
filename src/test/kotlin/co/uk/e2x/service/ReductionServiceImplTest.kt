@@ -25,7 +25,7 @@ class ReductionServiceImplTest {
 
         @Bean
         fun reductionService(): ReductionService {
-            return ReductionServiceImpl()
+            return ReductionService()
         }
 
     }

@@ -23,7 +23,7 @@ class ProductRepositoryImpl(val restTemplate: RestTemplate) : ProductRepository 
     override fun getProduct(productId: Int): List<Product> {
 
         val responseEntity: ResponseEntity<Category> = restTemplate.exchange(
-            url!!,
+            url,
             HttpMethod.GET,
             HttpEntity<Any>(HttpHeaders()),
             Category::class.java,
@@ -31,8 +31,10 @@ class ProductRepositoryImpl(val restTemplate: RestTemplate) : ProductRepository 
             apiKey
         )
 
-        if (responseEntity.body!!.products.isEmpty()) throw ProductNotFoundException("Product $productId not found")
+        if (responseEntity.body.products.isEmpty()) {
+            throw ProductNotFoundException("Product $productId not found")
+        }
 
-        return responseEntity.body!!.products
+        return responseEntity.body.products
     }
 }
