@@ -1,45 +1,45 @@
 package co.uk.e2x.controller
 
+import co.uk.e2x.handler.exception.ProductNotFoundException
 import co.uk.e2x.model.ColorSwatchesModel
-import co.uk.e2x.model.ProductModel
+import co.uk.e2x.model.ProductResponseModel
 import co.uk.e2x.service.ReductionService
+import io.mockk.every
+import io.mockk.mockk
+import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito.doReturn
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.http.HttpStatus
 
-@RunWith(SpringRunner::class)
-@WebMvcTest(ReductionController::class)
+
 class ReductionControllerTest {
 
-    @Autowired
-    lateinit var mockMvc: MockMvc
+    private val reductionService = mockk<ReductionService>(relaxed = true)
 
-    @MockBean
-    lateinit var discountService: ReductionService
+    private val reductionController = ReductionController(reductionService)
 
+    @Test(expected = ProductNotFoundException::class)
+    fun `Given incorrect categoryId , it returns ProductNotFoundException`() {
 
-    @Test
-    fun givenEmptyList_whenCallGetReducedProducts_thenReturnOK() {
-        doReturn(null).`when`(discountService).getReducedProducts(100, null)
+        every {
+            reductionService.getReducedProducts(100, null)
+        } returns emptyList()
 
-        mockMvc.perform(get("/categories/{categoryId}/reductions", 100))
-            .andExpect(status().isBadRequest)
+        reductionController.getDiscountedProducts(100, null)
     }
 
     @Test
-    fun givenCategoryId_whenCallGetReducedProducts_thenReturnOK() {
-        val mockProducts = listOf(ProductModel("100", "test", listOf(ColorSwatchesModel("", "", "")), "1", ""))
+    fun `Given correct categoryId , it returns OK and body`() {
 
-        doReturn(mockProducts).`when`(discountService).getReducedProducts(100, null)
+        val expected = listOf(ProductResponseModel("100", "Title",
+            listOf(ColorSwatchesModel("Red", "0000", "0000")), "10.00", "GBP"))
 
-        mockMvc.perform(get("/categories/{categoryId}/reductions", 100))
-            .andExpect(status().isOk)
+        every {
+            reductionService.getReducedProducts(100, null)
+        } returns expected
+
+        val response = reductionController.getDiscountedProducts(100, null)
+
+        Assert.assertEquals(HttpStatus.OK, response.statusCode)
+        Assert.assertEquals(expected, response.body)
     }
 }

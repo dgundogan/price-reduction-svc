@@ -1,6 +1,6 @@
 package co.uk.e2x.model
 
-data class ProductModel(
+data class ProductResponseModel(
     val productId: String,
     val title: String,
     val colorSwatches: List<ColorSwatchesModel>,

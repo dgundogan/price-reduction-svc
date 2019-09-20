@@ -1,7 +1,7 @@
 package co.uk.e2x.service
 
 import co.uk.e2x.model.LabelTypeEnum
-import co.uk.e2x.model.ProductModel
+import co.uk.e2x.model.ProductResponseModel
 import co.uk.e2x.repository.ProductRepository
 import co.uk.e2x.transformer.ProductTransformer
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,10 +16,10 @@ class ReductionService {
     @Autowired
     lateinit var productTransformer: ProductTransformer
 
-    fun getReducedProducts(productId: Int, priceLabelTypeEnum: LabelTypeEnum?): List<ProductModel> =
+    fun getReducedProducts(productId: Int, priceLabelTypeEnum: LabelTypeEnum?): List<ProductResponseModel>? =
         productRepository.getProduct(productId)
-            .map { product ->
+            ?.map { product ->
                 productTransformer.transformProduct(product, priceLabelTypeEnum)
             }
-            .sortedByDescending { it.priceLabel }
+            ?.sortedByDescending { it.priceLabel }
 }

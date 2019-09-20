@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 
 @RunWith(SpringRunner::class)
-class ReductionServiceImplTest {
+class ReductionServiceTest {
 
     private val categoryId: Int = 500
 
@@ -41,15 +41,16 @@ class ReductionServiceImplTest {
 
 
     @Test
-    fun getProducts() {
+    fun `Given correct product , it returns Product Response Model`() {
 
         val product = Product(
-            "100", "test", Price(null, null, null, "", CurrencyEnum.EUR),
+            "100", "test", Price(null, null, null, "30.40", CurrencyEnum.EUR),
             listOf(ColorSwatch("", "", ""))
         )
         val mockProducts = listOf(product)
 
-        val mockProductModels = ProductModel("100", "test", listOf(ColorSwatchesModel("", "", "")), "1", "")
+        val mockProductModels =
+            ProductResponseModel("100", "test", listOf(ColorSwatchesModel("", "", "")), "£30", "Was £0.00, now £30.40")
 
 
         Mockito.`when`(productRepository!!.getProduct(categoryId))
@@ -59,6 +60,6 @@ class ReductionServiceImplTest {
             .thenReturn(mockProductModels)
 
         val productModel = reductionService.getReducedProducts(categoryId, null)
-        assertEquals(productModel.size, 1)
+        assertEquals(productModel?.size, 1)
     }
 }

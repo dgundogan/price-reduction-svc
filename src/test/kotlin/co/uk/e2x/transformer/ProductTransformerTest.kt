@@ -1,113 +1,111 @@
 package co.uk.e2x.transformer
 
+import co.uk.e2x.model.*
+import org.junit.Assert
+import org.junit.Test
+
 
 class ProductTransformerTest {
 
     private val productTransformer = ProductTransformer()
 
-    /*@Test
-    fun givenPriceMoreThan10_whenCallCalculatePrice_thenReturnIntegerPrice() {
-        val expected = "£100"
-
-        val actual = calculatePrice("100.00", "GBP")
-
-        assertEquals(expected, actual)
-    }
-
     @Test
-    fun givenPriceLessThan10_whenCallCalculatePrice_thenReturnIntegerPrice() {
-        val expected = "£9.87"
+    fun `Given product and priceLabelTypeEnum is empty, it returns ProductResponseModel `() {
 
-        val actual = calculatePrice("9.87", "GBP")
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun givenColor_whenCallConvertColors_thenHexCode() {
-        val expected = listOf(ColorSwatchesModel("Red", "FF0000", "23423"))
-
-        val actual = convertColors(listOf(ColorSwatch("Red", "23423", "Red")))
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun giveLabelTypeIsShowWasNow_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
-
-        val expected = "Was £100.00, now £50.00"
-
-        val price = Price(100.00f, null, null, "50.00", CurrencyEnum.GBP)
-
-        val actual = convertPriceLabel(price, LabelTypeEnum.ShowWasNow)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun giveLabelTypeIsShowWasThenNowAndThen2IsNotEmpty_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
-
-        val expected = "Was €9.99, then €7.77, now €5.55"
-
-        val price = Price(9.99f, 9.00f, 7.77f, 5.55f, CurrencyEnum.EUR)
-
-        val actual = convertPriceLabel(price, LabelTypeEnum.ShowWasThenNow)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun giveLabelTypeIsShowWasThenNowAndThen2IsEmpty_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
-
-        val expected = "Was €9.99, then €9.00, now €5.55"
-
-        val price = Price(9.99f, 9.00f, null, 5.55f, CurrencyEnum.EUR)
-
-        val actual = convertPriceLabel(price, LabelTypeEnum.ShowWasThenNow)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun giveLabelTypeIsShowPercDscount_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
-
-        val expected = "200.0% off - now $100.00"
-
-        val price = Price(50.00f, null, null, "100.00", CurrencyEnum.USD)
-
-        val actual = convertPriceLabel(price, LabelTypeEnum.ShowPercDscount)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun giveLabelTypeIsNull_whenCallConvertPriceLabel_thenReturnCorrectMessage() {
-
-        val expected = "Was £100.00, now £50.00"
-
-        val price = Price(100.00f, null, null, "50.00", CurrencyEnum.GBP)
-
-        val actual = convertPriceLabel(price, null)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun transformProduct() {
-
-        val expected = ProductModel(
-            "1234", "title", listOf(ColorSwatchesModel("Red", "FF0000", "2342")),
-            "£100", "Was £100.00, now £100.00"
+        val expected = ProductResponseModel(
+            "3487329", "Oasis Grecian Midi Dress",
+            listOf(
+                ColorSwatchesModel("Navy", "0000FF", "237445349"),
+                ColorSwatchesModel("Khaki", "008000", "237445371")
+            ), "£30", "Was £0.00, now £30.40"
         )
 
         val actual = productTransformer.transformProduct(
             Product(
-                "1234", "title",
-                Price(100.00f, 98.00f, 60.00f, "100.00", CurrencyEnum.GBP),
-                listOf(ColorSwatch("Red", "2342", "Red"))
+                "3487329", "Oasis Grecian Midi Dress",
+                Price(null, null, null, "30.40", CurrencyEnum.GBP),
+                listOf(
+                    ColorSwatch("Blue", "237445349", "Navy"),
+                    ColorSwatch("Green", "237445371", "Khaki")
+                )
+            ), null
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Given product and priceLabelTypeEnum is ShowWasNow, it returns ProductResponseModel `() {
+
+        val expected = ProductResponseModel(
+            "3487329", "Oasis Grecian Midi Dress",
+            listOf(
+                ColorSwatchesModel("Navy", "0000FF", "237445349"),
+                ColorSwatchesModel("Khaki", "008000", "237445371")
+            ), "£30", "Was £0.00, now £30.40"
+        )
+
+        val actual = productTransformer.transformProduct(
+            Product(
+                "3487329", "Oasis Grecian Midi Dress",
+                Price(null, null, null, "30.40", CurrencyEnum.GBP),
+                listOf(
+                    ColorSwatch("Blue", "237445349", "Navy"),
+                    ColorSwatch("Green", "237445371", "Khaki")
+                )
             ), LabelTypeEnum.ShowWasNow
         )
 
-        assertEquals(expected, actual)
-    }*/
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Given product and priceLabelTypeEnum is ShowPercDscount, it returns ProductResponseModel `() {
+
+        val expected = ProductResponseModel(
+            "3487329", "Oasis Grecian Midi Dress",
+            listOf(
+                ColorSwatchesModel("Navy", "0000FF", "237445349"),
+                ColorSwatchesModel("Khaki", "008000", "237445371")
+            ), "£30", "0% off - now £30.40"
+        )
+
+        val actual = productTransformer.transformProduct(
+            Product(
+                "3487329", "Oasis Grecian Midi Dress",
+                Price(null, null, null, "30.40", CurrencyEnum.GBP),
+                listOf(
+                    ColorSwatch("Blue", "237445349", "Navy"),
+                    ColorSwatch("Green", "237445371", "Khaki")
+                )
+            ), LabelTypeEnum.ShowPercDscount
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Given product and priceLabelTypeEnum is ShowWasThenNow, it returns ProductResponseModel `() {
+
+        val expected = ProductResponseModel(
+            "3487329", "Oasis Grecian Midi Dress",
+            listOf(
+                ColorSwatchesModel("Navy", "0000FF", "237445349"),
+                ColorSwatchesModel("Khaki", "008000", "237445371")
+            ), "£30", "Was £0.00, then £0.00, now £30.40"
+        )
+
+        val actual = productTransformer.transformProduct(
+            Product(
+                "3487329", "Oasis Grecian Midi Dress",
+                Price(null, null, null, "30.40", CurrencyEnum.GBP),
+                listOf(
+                    ColorSwatch("Blue", "237445349", "Navy"),
+                    ColorSwatch("Green", "237445371", "Khaki")
+                )
+            ), LabelTypeEnum.ShowWasThenNow
+        )
+
+        Assert.assertEquals(expected, actual)
+    }
 }

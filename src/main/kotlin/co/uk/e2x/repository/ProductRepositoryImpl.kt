@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 
@@ -15,14 +14,14 @@ import org.springframework.web.client.RestTemplate
 class ProductRepositoryImpl(val restTemplate: RestTemplate) : ProductRepository {
 
     @Value("\${myconfig.url:}")
-    val url: String? = null
+    val url: String = ""
 
     @Value("\${myconfig.apiKey:}")
-    val apiKey: String? = null
+    val apiKey: String = ""
 
-    override fun getProduct(productId: Int): List<Product> {
+    override fun getProduct(productId: Int): List<Product>? {
 
-        val responseEntity: ResponseEntity<Category> = restTemplate.exchange(
+        val responseEntity = restTemplate.exchange(
             url,
             HttpMethod.GET,
             HttpEntity<Any>(HttpHeaders()),
@@ -31,10 +30,10 @@ class ProductRepositoryImpl(val restTemplate: RestTemplate) : ProductRepository 
             apiKey
         )
 
-        if (responseEntity.body.products.isEmpty()) {
+        if (responseEntity.body?.products?.size == 0) {
             throw ProductNotFoundException("Product $productId not found")
         }
 
-        return responseEntity.body.products
+        return responseEntity.body?.products
     }
 }

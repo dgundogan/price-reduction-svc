@@ -8,19 +8,19 @@ import co.uk.e2x.model.Price
 class PriceTransformer {
     companion object {
         fun calculatePrice(price: Any, currency: String): String {
-            val nowPrice: String = try {
+            val nowPrice: Float = try {
                 if (price is String) {
-                    price
+                    price.toFloat()
                 } else {
                     val priceNow = price as LinkedHashMap<String, String>
-                    priceNow["to"].toString()
+                    priceNow["to"].toString().toFloat()
                 }
             } catch (e: Exception) {
-                "0"
+                0.0f
             }
             return CurrencyEnum.valueOf(currency).currency.plus(
-                when (nowPrice.toFloat() < 10) {
-                    false -> nowPrice.let { Math.round(it.toFloat()) }
+                when (nowPrice < 10) {
+                    false -> nowPrice.let { Math.round(it) }
                     true -> nowPrice
                 }
             )

@@ -22,9 +22,8 @@ class ProductRepositoryImplTest {
 
     private lateinit var productRepository: ProductRepository
 
-    //Integration testing
     @Test
-    fun givenCorrectProductId_whenCallGetProduct_thenReturnsOK() {
+    fun `Given correct ProductId, it returns success`() {
 
         val mockProducts = listOf(
             Product(
@@ -59,6 +58,6 @@ class ProductRepositoryImplTest {
         val result = productRepository.getProduct(600001506)
 
         Assert.assertNotNull(result)
-        Assert.assertTrue(result.isNotEmpty())
+        Assert.assertEquals(result, mockProducts)
     }
 }
